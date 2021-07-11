@@ -5,19 +5,19 @@ import Link from "next/link";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
-import Avatar from '@material-ui/core/Avatar';
+import Avatar from "@material-ui/core/Avatar";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
   },
   paper: {
     padding: theme.spacing(2),
-    textAlign: 'center',
+    textAlign: "center",
     color: theme.palette.text.secondary,
   },
-  default :{
-    listStyle: 'none'
-  }
+  default: {
+    listStyle: "none",
+  },
 }));
 
 const Index = ({ data, title, description }) => {
@@ -25,23 +25,25 @@ const Index = ({ data, title, description }) => {
   const ListItems = RealData.map((listItem) => listItem.data);
   const classes = useStyles();
   return (
-    <>
+    <> 
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta charSet="utf-8" />
         <meta name="Description" content={description}></meta>
         <title>{title}</title>
-      </Head>
+      </Head> 
       <div className={classes.root}>
         <Grid container spacing={3}>
           <Grid item sm={3} xs={12}>
-            <Paper className={classes.paper}>xs</Paper>
+            <Paper className={classes.paper}>
+              <Avatar alt="Remy Sharp" src="/img/head.jpg" />
+            </Paper>
           </Grid>
           <Grid item sm={9} xs={12}>
             <Paper className={classes.paper}>
               <ul>
                 {ListItems.map((blog, i) => (
-                  <li key={i}  className={classes.default}>
+                  <li key={i} className={classes.default}>
                     <Link href={`/${blog.slug}`}>
                       <a>{blog.title}</a>
                     </Link>
