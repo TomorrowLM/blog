@@ -2,11 +2,28 @@ import React from "react";
 import Head from "next/head";
 import matter from "gray-matter";
 import Link from "next/link";
+import { makeStyles } from "@material-ui/core/styles";
+import Paper from "@material-ui/core/Paper";
+import Grid from "@material-ui/core/Grid";
+import Avatar from '@material-ui/core/Avatar';
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+  },
+  paper: {
+    padding: theme.spacing(2),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+  },
+  default :{
+    listStyle: 'none'
+  }
+}));
 
 const Index = ({ data, title, description }) => {
   const RealData = data.map((blog) => matter(blog));
   const ListItems = RealData.map((listItem) => listItem.data);
-  console.log(data);
+  const classes = useStyles();
   return (
     <>
       <Head>
@@ -15,18 +32,26 @@ const Index = ({ data, title, description }) => {
         <meta name="Description" content={description}></meta>
         <title>{title}</title>
       </Head>
-      <h1>My First Blog ✍ </h1>
-      <div>
-        <ul>
-          {ListItems.map((blog, i) => (
-            <li key={i}>
-              <Link href={`/${blog.slug}`}>
-                <a>{blog.title}</a>
-              </Link>
-              <p>{blog.description}</p>
-            </li>
-          ))}
-        </ul>
+      <div className={classes.root}>
+        <Grid container spacing={3}>
+          <Grid item sm={3} xs={12}>
+            <Paper className={classes.paper}>xs</Paper>
+          </Grid>
+          <Grid item sm={9} xs={12}>
+            <Paper className={classes.paper}>
+              <ul>
+                {ListItems.map((blog, i) => (
+                  <li key={i}  className={classes.default}>
+                    <Link href={`/${blog.slug}`}>
+                      <a>{blog.title}</a>
+                    </Link>
+                    <p>{blog.description}</p>
+                  </li>
+                ))}
+              </ul>
+            </Paper>
+          </Grid>
+        </Grid>
       </div>
     </>
   );
