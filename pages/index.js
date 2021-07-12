@@ -8,6 +8,8 @@ import Grid from "@material-ui/core/Grid";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import GitHubIcon from "@material-ui/icons/GitHub";
+import FolderIcon from "@material-ui/icons/Folder";
+import NestedList from "../components/homepage/NestedList";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -16,6 +18,8 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2),
     textAlign: "center",
     color: theme.palette.text.secondary,
+    padding: 4,
+    paddingBottom: 11,
   },
   default: {
     listStyle: "none",
@@ -30,7 +34,9 @@ const useStyles = makeStyles((theme) => ({
 const Index = ({ data, title, description }) => {
   const RealData = data.map((blog) => matter(blog));
   const ListItems = RealData.map((listItem) => listItem.data);
+  console.log(ListItems);
   const classes = useStyles();
+
   return (
     <>
       <Head>
@@ -72,7 +78,7 @@ const Index = ({ data, title, description }) => {
                 href="https://github.com/TomorrowLM"
                 size="small"
                 style={{
-                  width:"80%",
+                  width: "80%",
                   marginTop: 20,
                   fontVariant: "all-small-caps",
                 }}
@@ -81,17 +87,36 @@ const Index = ({ data, title, description }) => {
                 github
               </Button>
             </Paper>
-            <Paper className={classes.paper} style={{ marginTop: 10 }}></Paper>
-            <Paper className={classes.paper} style={{ marginTop: 10 }}></Paper>
+            <Paper className={classes.paper} style={{ marginTop: 10 }}>
+              <NestedList></NestedList>
+            </Paper>
+            <Paper className={classes.paper} style={{ marginTop: 10 }}>
+              <p
+                style={{
+                  textAlign: "left",
+                  paddingLeft: 16,
+                  margin: 0,
+                  marginTop: 10,
+                }}
+              >
+                <FolderIcon></FolderIcon>
+                <span style={{ verticalAlign: "super" }}>分类</span>
+              </p>
+              <ul className={classes.default}>
+                {ListItems.map((blog, i) => (
+                    <li className={classes.default}>{blog.category}</li>
+                ))}
+              </ul>
+            </Paper>
           </Grid>
           <Grid item sm={8} xs={12}>
             <ul className={classes.default}>
               {ListItems.map((blog, i) => (
-                <Paper>
-                  <li key={i} className={classes.default}>
+                <Paper key={i}>
+                  <li className={classes.default}>
                     <div>
                       <img
-                        src="/1.jpg"
+                        src="/8.jpg"
                         style={{
                           width: "100%",
                           height: 150,
@@ -123,7 +148,6 @@ export async function getStaticProps() {
   const files = fs.readdirSync(`${process.cwd()}/content`, "utf-8");
 
   const blogs = files.filter((fn) => fn.endsWith(".md"));
-
   const data = blogs.map((blog) => {
     const path = `${process.cwd()}/content/${blog}`;
     const rawContent = fs.readFileSync(path, {
