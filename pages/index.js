@@ -6,6 +6,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import Avatar from "@material-ui/core/Avatar";
+import Button from "@material-ui/core/Button";
+import GitHubIcon from "@material-ui/icons/GitHub";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -17,6 +19,11 @@ const useStyles = makeStyles((theme) => ({
   },
   default: {
     listStyle: "none",
+    padding: 0,
+    margin: 0,
+  },
+  imgcenter: {
+    margin: "auto",
   },
 }));
 
@@ -25,33 +32,81 @@ const Index = ({ data, title, description }) => {
   const ListItems = RealData.map((listItem) => listItem.data);
   const classes = useStyles();
   return (
-    <> 
+    <>
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta charSet="utf-8" />
         <meta name="Description" content={description}></meta>
         <title>{title}</title>
-      </Head> 
-      <div className={classes.root}>
-        <Grid container spacing={3}>
+      </Head>
+      <div
+        className={classes.root}
+        style={{ paddingLeft: "5vw", paddingRight: "5vw" }}
+      >
+        <Grid container spacing={2}>
           <Grid item sm={3} xs={12}>
             <Paper className={classes.paper}>
-              <Avatar alt="Remy Sharp" src="/img/head.jpg" />
+              <Avatar
+                alt="liming"
+                src="/head.jpg"
+                className={classes.imgcenter}
+              />
+              <p>TomorrowLM</p>
+              <span>热爱</span>
+              <div className={classes.root} style={{ marginTop: 10 }}>
+                <Grid container spacing={1}>
+                  <Grid item xs={4} sm={4}>
+                    <span>文章</span>
+                  </Grid>
+                  <Grid item xs={4} sm={4}>
+                    <span>标签</span>
+                  </Grid>
+                  <Grid item xs={4} sm={4}>
+                    <span>分类</span>
+                  </Grid>
+                </Grid>
+              </div>
+              <Button
+                variant="contained"
+                color="primary"
+                href="https://github.com/TomorrowLM"
+                size="small"
+                style={{
+                  width:"80%",
+                  marginTop: 20,
+                  fontVariant: "all-small-caps",
+                }}
+              >
+                <GitHubIcon />
+                github
+              </Button>
             </Paper>
+            <Paper className={classes.paper} style={{ marginTop: 10 }}></Paper>
+            <Paper className={classes.paper} style={{ marginTop: 10 }}></Paper>
           </Grid>
-          <Grid item sm={9} xs={12}>
-            <Paper className={classes.paper}>
-              <ul>
-                {ListItems.map((blog, i) => (
+          <Grid item sm={8} xs={12}>
+            <ul className={classes.default}>
+              {ListItems.map((blog, i) => (
+                <Paper>
                   <li key={i} className={classes.default}>
+                    <div>
+                      <img
+                        src="/1.jpg"
+                        style={{
+                          width: "100%",
+                          height: 150,
+                          objectFit: "cover",
+                        }}
+                      ></img>
+                    </div>
                     <Link href={`/${blog.slug}`}>
                       <a>{blog.title}</a>
                     </Link>
                     <p>{blog.description}</p>
                   </li>
-                ))}
-              </ul>
-            </Paper>
+                </Paper>
+              ))}
+            </ul>
           </Grid>
         </Grid>
       </div>

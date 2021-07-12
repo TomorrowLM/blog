@@ -3,7 +3,10 @@
         "docco",
         "frontmatter",
         "hljs",
+        "imgcenter",
+        "navclassify",
         "postname",
+        "titleclassify",
         "vfile"
     ]
 }
