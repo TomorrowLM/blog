@@ -32,11 +32,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Index = ({ data, title, description }) => {
+  const classes = useStyles();
   const RealData = data.map((blog) => matter(blog));
   const ListItems = RealData.map((listItem) => listItem.data);
-  console.log(ListItems);
-  const classes = useStyles();
-
+  let categoryList = ListItems.map((blog, i) => {
+    return blog.category;
+  });
+  categoryList = Array.from(new Set(categoryList));
   return (
     <>
       <Head>
@@ -58,7 +60,7 @@ const Index = ({ data, title, description }) => {
                 className={classes.imgcenter}
               />
               <p>TomorrowLM</p>
-              <span>热爱</span>
+              <span>热/爱</span>
               <div className={classes.root} style={{ marginTop: 10 }}>
                 <Grid container spacing={1}>
                   <Grid item xs={4} sm={4}>
@@ -94,17 +96,21 @@ const Index = ({ data, title, description }) => {
               <p
                 style={{
                   textAlign: "left",
-                  paddingLeft: 16,
+                  paddingLeft: 14,
                   margin: 0,
                   marginTop: 10,
                 }}
               >
                 <FolderIcon></FolderIcon>
-                <span style={{ verticalAlign: "super" }}>分类</span>
+                <span style={{ verticalAlign: "super" }}>分/类</span>
               </p>
               <ul className={classes.default}>
-                {ListItems.map((blog, i) => (
-                    <li className={classes.default}>{blog.category}</li>
+                {categoryList.map((categoryItem, i) => (
+                  <li className={classes.default} key={i}>
+                    <Link href={`/category/${encodeURIComponent(categoryItem)}`}>
+                      <a>{categoryItem}</a>
+                    </Link>
+                  </li>
                 ))}
               </ul>
             </Paper>

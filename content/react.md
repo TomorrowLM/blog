@@ -1,6 +1,6 @@
 ---
-slug: React
-title: React
+slug: react
+title: react
 description: description.
 category: 框架
 date: 25-September-2020
