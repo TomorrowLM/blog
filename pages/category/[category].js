@@ -8,6 +8,7 @@ import "markdown-navbar/dist/navbar.css";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
+import { useState } from "react";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -27,7 +28,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 const Blog = (req, res) => {
   const classes = useStyles();
-  console.log(req.url.query.category)
+  console.log(req.url.query.category);
+  const [value, setValue] = useState("");
+  const handleChange = function (event) {
+    console.log(event.target.value);
+    setValue(event.target.value);
+    event.preventDefault();
+  };
   return (
     <>
       <Head>
@@ -38,11 +45,10 @@ const Blog = (req, res) => {
       </Head>
       <div className={classes.root}>
         <Grid container spacing={6}>
-          <Grid item sm={3} xs={12} style={{paddingBottom:0}}>
-            1
+          <Grid item sm={3} xs={12} style={{ paddingBottom: 0 }}>
+            <input type="text" value={value} onChange={handleChange} />
           </Grid>
-          <Grid item sm={9} xs={12}>
-          </Grid>
+          <Grid item sm={9} xs={12}></Grid>
         </Grid>
       </div>
     </>
