@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Head from "next/head";
 import matter from "gray-matter";
 import Link from "next/link";
@@ -10,9 +10,11 @@ import Button from "@material-ui/core/Button";
 import GitHubIcon from "@material-ui/icons/GitHub";
 import FolderIcon from "@material-ui/icons/Folder";
 import NestedList from "../components/homepage/NestedList";
+import { Transition } from "react-transition-group";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
+    transition: "1s ease opacity",
   },
   paper: {
     padding: theme.spacing(2),
@@ -31,6 +33,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const duration = 300;
+const defaultStyle = {
+  transition: `opacity ${duration}ms ease-in-out`,
+  opacity: 0,
+};
+const transitionStyles = {
+  entering: { opacity: 1 },
+  entered: { opacity: 1 },
+  exiting: { opacity: 0 },
+  exited: { opacity: 0 },
+};
+
 const Index = ({ data, title, description }) => {
   const classes = useStyles();
   const RealData = data.map((blog) => matter(blog));
@@ -38,110 +52,125 @@ const Index = ({ data, title, description }) => {
   let categoryList = ListItems.map((blog, i) => {
     return blog.category;
   });
+  const [inProp, setInProp] = useState(false);
+  useEffect(() => {
+    setInProp(true);
+  });
   categoryList = Array.from(new Set(categoryList));
   return (
-    <>
+    <div style={{background:'url("/7.jpg") no-repeat center center fixed', backgroundSize: 'cover'}}>
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta charSet="utf-8" />
         <meta name="Description" content={description}></meta>
         <title>{title}</title>
       </Head>
-      <div
-        className={classes.root}
-        style={{ paddingLeft: "5vw", paddingRight: "5vw" }}
-      >
-        <Grid container spacing={2}>
-          <Grid item sm={3} xs={12}>
-            <Paper className={classes.paper}>
-              <Avatar
-                alt="liming"
-                src="/head.jpg"
-                className={classes.imgcenter}
-              />
-              <p>TomorrowLM</p>
-              <span>热/爱</span>
-              <div className={classes.root} style={{ marginTop: 10 }}>
-                <Grid container spacing={1}>
-                  <Grid item xs={4} sm={4}>
-                    <span>文章</span>
-                  </Grid>
-                  <Grid item xs={4} sm={4}>
-                    <span>标签</span>
-                  </Grid>
-                  <Grid item xs={4} sm={4}>
-                    <span>分类</span>
-                  </Grid>
-                </Grid>
-              </div>
-              <Button
-                variant="contained"
-                color="primary"
-                href="https://github.com/TomorrowLM"
-                size="small"
-                style={{
-                  width: "80%",
-                  marginTop: 20,
-                  fontVariant: "all-small-caps",
-                }}
-              >
-                <GitHubIcon />
-                github
-              </Button>
-            </Paper>
-            <Paper className={classes.paper} style={{ marginTop: 10 }}>
-              <NestedList></NestedList>
-            </Paper>
-            <Paper className={classes.paper} style={{ marginTop: 10 }}>
-              <p
-                style={{
-                  textAlign: "left",
-                  paddingLeft: 14,
-                  margin: 0,
-                  marginTop: 10,
-                }}
-              >
-                <FolderIcon></FolderIcon>
-                <span style={{ verticalAlign: "super" }}>分/类</span>
-              </p>
-              <ul className={classes.default}>
-                {categoryList.map((categoryItem, i) => (
-                  <li className={classes.default} key={i}>
-                    <Link href={`/category/${encodeURIComponent(categoryItem)}`}>
-                      <a>{categoryItem}</a>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </Paper>
-          </Grid>
-          <Grid item sm={8} xs={12}>
-            <ul className={classes.default}>
-              {ListItems.map((blog, i) => (
-                <Paper key={i}>
-                  <li className={classes.default}>
-                    <div>
-                      <img
-                        src="/8.jpg"
-                        style={{
-                          width: "100%",
-                          height: 150,
-                          objectFit: "cover",
-                        }}
-                      ></img>
-                    </div>
-                    <Link href={`/${blog.slug}`}>
-                      <a>{blog.title}</a>
-                    </Link>
-                    <p>{blog.description}</p>
-                  </li>
+      <Transition timeout={duration} in={inProp}>
+        {(state) => (
+          <div
+            className={classes.root}
+            style={{
+              paddingLeft: "5vw",
+              paddingRight: "5vw",
+              ...defaultStyle,
+              ...transitionStyles[state],
+            }}
+          >
+            <Grid container spacing={2}>
+              <Grid item sm={3} xs={12}>
+                <Paper className={classes.paper}>
+                  <Avatar
+                    alt="liming"
+                    src="/head.jpg"
+                    className={classes.imgcenter}
+                  />
+                  <p>TomorrowLM</p>
+                  <span>热/爱</span>
+                  <div className={classes.root} style={{ marginTop: 10 }}>
+                    <Grid container spacing={1}>
+                      <Grid item xs={4} sm={4}>
+                        <span>文章</span>
+                      </Grid>
+                      <Grid item xs={4} sm={4}>
+                        <span>标签</span>
+                      </Grid>
+                      <Grid item xs={4} sm={4}>
+                        <span>分类</span>
+                      </Grid>
+                    </Grid>
+                  </div>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    href="https://github.com/TomorrowLM"
+                    size="small"
+                    style={{
+                      width: "80%",
+                      marginTop: 20,
+                      fontVariant: "all-small-caps",
+                    }}
+                  >
+                    <GitHubIcon />
+                    github
+                  </Button>
                 </Paper>
-              ))}
-            </ul>
-          </Grid>
-        </Grid>
-      </div>
-    </>
+                <Paper className={classes.paper} style={{ marginTop: 10 }}>
+                  <NestedList></NestedList>
+                </Paper>
+                <Paper className={classes.paper} style={{ marginTop: 10 }}>
+                  <p
+                    style={{
+                      textAlign: "left",
+                      paddingLeft: 14,
+                      margin: 0,
+                      marginTop: 10,
+                    }}
+                  >
+                    <FolderIcon></FolderIcon>
+                    <span style={{ verticalAlign: "super" }}>分/类</span>
+                  </p>
+                  <ul className={classes.default}>
+                    {categoryList.map((categoryItem, i) => (
+                      <li className={classes.default} key={i}>
+                        <Link
+                          href={`/category/${encodeURIComponent(categoryItem)}`}
+                        >
+                          <a>{categoryItem}</a>
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </Paper>
+              </Grid>
+              <Grid item sm={8} xs={12}>
+                <ul className={classes.default}>
+                  {ListItems.map((blog, i) => (
+                    <Paper key={i}>
+                      <li className={classes.default}>
+                        <div>
+                          <img
+                            src="/8.jpg"
+                            style={{
+                              width: "100%",
+                              height: 150,
+                              objectFit: "cover",
+                            }}
+                          ></img>
+                        </div>
+                        <Link href={`/${blog.slug}`}>
+                          <a>{blog.title}</a>
+                        </Link>
+                        <p>{blog.description}</p>
+                      </li>
+                    </Paper>
+                  ))}
+                </ul>
+              </Grid>
+            </Grid>
+          </div>
+        )}
+      </Transition>
+    </div>
   );
 };
 
