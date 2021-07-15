@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Head from "next/head";
 import matter from "gray-matter";
 import Link from "next/link";
@@ -13,6 +13,8 @@ import NestedList from "../components/homepage/NestedList";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
+    opacity: 1,
+    transition: "1s ease opacity",
   },
   paper: {
     padding: theme.spacing(2),
@@ -38,6 +40,11 @@ const Index = ({ data, title, description }) => {
   let categoryList = ListItems.map((blog, i) => {
     return blog.category;
   });
+  let [homeTransition, setHomeTransition] = useState("");
+  useEffect(() => {
+    setHomeTransition("opacity:0");
+    console.log(homeTransition,1,1)
+  });
   categoryList = Array.from(new Set(categoryList));
   return (
     <>
@@ -49,7 +56,7 @@ const Index = ({ data, title, description }) => {
       </Head>
       <div
         className={classes.root}
-        style={{ paddingLeft: "5vw", paddingRight: "5vw" }}
+        style={{ paddingLeft: "5vw", paddingRight: "5vw", homeTransition }}
       >
         <Grid container spacing={2}>
           <Grid item sm={3} xs={12}>
@@ -107,7 +114,9 @@ const Index = ({ data, title, description }) => {
               <ul className={classes.default}>
                 {categoryList.map((categoryItem, i) => (
                   <li className={classes.default} key={i}>
-                    <Link href={`/category/${encodeURIComponent(categoryItem)}`}>
+                    <Link
+                      href={`/category/${encodeURIComponent(categoryItem)}`}
+                    >
                       <a>{categoryItem}</a>
                     </Link>
                   </li>
