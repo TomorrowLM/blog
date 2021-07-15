@@ -10,8 +10,7 @@ import Button from "@material-ui/core/Button";
 import GitHubIcon from "@material-ui/icons/GitHub";
 import FolderIcon from "@material-ui/icons/Folder";
 import NestedList from "../components/homepage/NestedList";
-import Fade from "@material-ui/core/Fade";
-import Slide from '@material-ui/core/Slide';
+import { Transition } from 'react-transition-group';
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -41,8 +40,11 @@ const Index = ({ data, title, description }) => {
   let categoryList = ListItems.map((blog, i) => {
     return blog.category;
   });
-  const [checked, setChecked] = React.useState(true);
+  const [aa, setAA] = React.useState(false);
   categoryList = Array.from(new Set(categoryList));
+  useEffect(()=>{
+    setAA(true)
+  })
   return (
     <>
       <Head>
@@ -51,10 +53,10 @@ const Index = ({ data, title, description }) => {
         <meta name="Description" content={description}></meta>
         <title>{title}</title>
       </Head>
-      <Slide direction="up" in={checked} mountOnEnter unmountOnExit>
+      <>
         <div
           className={classes.root}
-          style={{ paddingLeft: "5vw", paddingRight: "5vw"}}
+          style={{ paddingLeft: "5vw", paddingRight: "5vw" ,opacity:aa?1:0}}
         >
           <Grid container spacing={2}>
             <Grid item sm={3} xs={12}>
@@ -148,7 +150,7 @@ const Index = ({ data, title, description }) => {
             </Grid>
           </Grid>
         </div>
-      </Slide>
+      </>
     </>
   );
 };
