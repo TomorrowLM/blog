@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
 let NestedList = function (props) {
   const classes = useStyles();
   const [open1, setOpen1] = React.useState(true);
-  const [open2, setOpen2] = React.useState(false);
+  const [open2, setOpen2] = React.useState(true);
   const handleClick1 = () => {
     setOpen1(!open1);
   };
@@ -52,13 +52,13 @@ let NestedList = function (props) {
         </List>
       </Collapse>
       <ListItem button onClick={handleClick2} style={{ height: 30 }}>
-        <ListItemText primary="公 告" />
+        <ListItemText primary="公告" />
         {open2 ? <ExpandLess /> : <ExpandMore />}
       </ListItem>
       <Collapse in={open2} timeout="auto" unmountOnExit>
         <List component="div">
           <ListItem button className={classes.nested}>
-            <ListItemText primary="120329698" />
+            <ListItemText primary="博客搭建中..." />
           </ListItem>
         </List>
       </Collapse>

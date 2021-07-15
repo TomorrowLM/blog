@@ -53,12 +53,12 @@ const Index = ({ data, title, description }) => {
     return blog.category;
   });
   const [inProp, setInProp] = useState(false);
-  useEffect(()=>{
-    setInProp(true)
-  })
+  useEffect(() => {
+    setInProp(true);
+  });
   categoryList = Array.from(new Set(categoryList));
   return (
-    <>
+    <div style={{background:'url("/7.jpg") no-repeat center center fixed', backgroundSize: 'cover'}}>
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta charSet="utf-8" />
@@ -85,7 +85,7 @@ const Index = ({ data, title, description }) => {
                     className={classes.imgcenter}
                   />
                   <p>TomorrowLM</p>
-                  <span>热爱</span>
+                  <span>热/爱</span>
                   <div className={classes.root} style={{ marginTop: 10 }}>
                     <Grid container spacing={1}>
                       <Grid item xs={4} sm={4}>
@@ -170,7 +170,7 @@ const Index = ({ data, title, description }) => {
           </div>
         )}
       </Transition>
-    </>
+    </div>
   );
 };
 
