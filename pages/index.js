@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useState } from "react";
-import Head from "next/head";
 import matter from "gray-matter";
 import Link from "next/link";
 import { makeStyles } from "@material-ui/core/styles";
@@ -9,8 +8,9 @@ import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import GitHubIcon from "@material-ui/icons/GitHub";
 import FolderIcon from "@material-ui/icons/Folder";
-import NestedList from "../components/homepage/NestedList";
+import NestedList from "./components/homepage/NestedList";
 import { Transition } from "react-transition-group";
+import SideBar from "./SideBar";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -45,7 +45,7 @@ const transitionStyles = {
   exited: { opacity: 0 },
 };
 
-const Index = ({ data, title, description }) => {
+const Index = ({ data }) => {
   const classes = useStyles();
   const RealData = data.map((blog) => matter(blog));
   const ListItems = RealData.map((listItem) => listItem.data);
@@ -58,13 +58,14 @@ const Index = ({ data, title, description }) => {
   });
   categoryList = Array.from(new Set(categoryList));
   return (
-    <div style={{background:'url("/7.jpg") no-repeat center center fixed', backgroundSize: 'cover'}}>
-      <Head>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta charSet="utf-8" />
-        <meta name="Description" content={description}></meta>
-        <title>{title}</title>
-      </Head>
+    <div
+      style={{
+        background: 'url("/7.jpg") no-repeat center center fixed',
+        backgroundSize: "cover",
+        paddingTop: 15,
+      }}
+    >
+      {/* <SideBar></SideBar> */}
       <Transition timeout={duration} in={inProp}>
         {(state) => (
           <div
@@ -85,7 +86,7 @@ const Index = ({ data, title, description }) => {
                     className={classes.imgcenter}
                   />
                   <p>TomorrowLM</p>
-                  <span>热/爱</span>
+                  <span>热爱</span>
                   <div className={classes.root} style={{ marginTop: 10 }}>
                     <Grid container spacing={1}>
                       <Grid item xs={4} sm={4}>
@@ -177,9 +178,7 @@ const Index = ({ data, title, description }) => {
 export default Index;
 
 export async function getStaticProps() {
-  const siteData = await import(`../config.json`);
   const fs = require("fs");
-
   const files = fs.readdirSync(`${process.cwd()}/content`, "utf-8");
 
   const blogs = files.filter((fn) => fn.endsWith(".md"));
@@ -190,12 +189,9 @@ export async function getStaticProps() {
     });
     return rawContent;
   });
-
   return {
     props: {
       data: data,
-      title: siteData.default.title,
-      description: siteData.default.description,
     },
   };
 }
