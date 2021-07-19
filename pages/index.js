@@ -4,13 +4,9 @@ import Link from "next/link";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
-import Avatar from "@material-ui/core/Avatar";
-import Button from "@material-ui/core/Button";
-import GitHubIcon from "@material-ui/icons/GitHub";
-import FolderIcon from "@material-ui/icons/Folder";
-import NestedList from "./components/homepage/NestedList";
 import { Transition } from "react-transition-group";
-import SideBar from "./SideBar";
+import SideBar from "./components/homepage/SideBar";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -65,7 +61,6 @@ const Index = ({ data }) => {
         paddingTop: 15,
       }}
     >
-      {/* <SideBar></SideBar> */}
       <Transition timeout={duration} in={inProp}>
         {(state) => (
           <div
@@ -79,69 +74,7 @@ const Index = ({ data }) => {
           >
             <Grid container spacing={2}>
               <Grid item sm={3} xs={12}>
-                <Paper className={classes.paper}>
-                  <Avatar
-                    alt="liming"
-                    src="/head.jpg"
-                    className={classes.imgcenter}
-                  />
-                  <p>TomorrowLM</p>
-                  <span>热爱</span>
-                  <div className={classes.root} style={{ marginTop: 10 }}>
-                    <Grid container spacing={1}>
-                      <Grid item xs={4} sm={4}>
-                        <span>文章</span>
-                      </Grid>
-                      <Grid item xs={4} sm={4}>
-                        <span>标签</span>
-                      </Grid>
-                      <Grid item xs={4} sm={4}>
-                        <span>分类</span>
-                      </Grid>
-                    </Grid>
-                  </div>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    href="https://github.com/TomorrowLM"
-                    size="small"
-                    style={{
-                      width: "80%",
-                      marginTop: 20,
-                      fontVariant: "all-small-caps",
-                    }}
-                  >
-                    <GitHubIcon />
-                    github
-                  </Button>
-                </Paper>
-                <Paper className={classes.paper} style={{ marginTop: 10 }}>
-                  <NestedList></NestedList>
-                </Paper>
-                <Paper className={classes.paper} style={{ marginTop: 10 }}>
-                  <p
-                    style={{
-                      textAlign: "left",
-                      paddingLeft: 14,
-                      margin: 0,
-                      marginTop: 10,
-                    }}
-                  >
-                    <FolderIcon></FolderIcon>
-                    <span style={{ verticalAlign: "super" }}>分/类</span>
-                  </p>
-                  <ul className={classes.default}>
-                    {categoryList.map((categoryItem, i) => (
-                      <li className={classes.default} key={i}>
-                        <Link
-                          href={`/category/${encodeURIComponent(categoryItem)}`}
-                        >
-                          <a>{categoryItem}</a>
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </Paper>
+                <SideBar categoryList={categoryList}></SideBar>
               </Grid>
               <Grid item sm={8} xs={12}>
                 <ul className={classes.default}>
