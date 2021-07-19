@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState, memo } from "react";
 import Link from "next/link";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
@@ -29,9 +29,10 @@ const useStyles = makeStyles((theme) => ({
     margin: "auto",
   },
 }));
-const SideBar = (props) => {
+const SideBar = memo((props) => {
   const classes = useStyles();
-  const categoryList = props.categoryList;
+  const categoryList = props.categoryList || [];
+  console.log(3);
   return (
     <>
       <Paper className={classes.paper}>
@@ -93,5 +94,5 @@ const SideBar = (props) => {
       </Paper>
     </>
   );
-};
+});
 export default SideBar;

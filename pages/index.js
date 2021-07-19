@@ -53,6 +53,7 @@ const Index = ({ data }) => {
     setInProp(true);
   });
   categoryList = Array.from(new Set(categoryList));
+  console.log(2);
   return (
     <div
       style={{
@@ -122,6 +123,7 @@ export async function getStaticProps() {
     });
     return rawContent;
   });
+  console.log(1);
   return {
     props: {
       data: data,

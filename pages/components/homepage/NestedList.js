@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-let NestedList = function (props) {
+let NestedList = memo((props) => {
   const classes = useStyles();
   const [open1, setOpen1] = React.useState(true);
   const [open2, setOpen2] = React.useState(true);
@@ -58,5 +58,5 @@ let NestedList = function (props) {
       </Collapse>
     </List>
   );
-};
+});
 export default NestedList;
