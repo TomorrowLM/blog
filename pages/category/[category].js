@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { Transition } from "react-transition-group";
 import SideBar from "../components/homepage/SideBar";
 import Grid from "@material-ui/core/Grid";
+import Link from "next/link";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -32,10 +33,22 @@ const category = ({ categoryList }) => {
   const router = useRouter();
   const category = router.query.category;
   const [inProp, setInProp] = useState(false);
+  console.log(categoryList);
+  categoryList = categoryList || [];
+  let categoryTitle = categoryList.map((value, index) => {
+    if (value[0] === category) {
+      console.log(value[1]);
+      return value[1];
+    }
+  });
+  console.log(categoryList);
+  categoryList = categoryList.map((value) => {
+    return value[0];
+  });
+  categoryList = Array.from(new Set(categoryList));
   useEffect(() => {
     setInProp(true);
   });
-  console.log(4);
   return (
     <Transition timeout={duration} in={inProp}>
       {(state) => (
@@ -55,7 +68,15 @@ const category = ({ categoryList }) => {
               <Grid item sm={3} xs={12}>
                 <SideBar categoryList={categoryList}></SideBar>
               </Grid>
-              <Grid item sm={8} xs={12}></Grid>
+              <Grid item sm={8} xs={12}>
+                {categoryTitle.map((value, i) => {
+                  return (
+                    <Link href={`/${value}`} key={i}>
+                      <a>{value}</a>
+                    </Link>
+                  );
+                })}
+              </Grid>
             </Grid>
           </div>
         </div>
@@ -90,9 +111,10 @@ export async function getStaticProps() {
   const RealData = data.map((blog) => matter(blog));
   const ListItems = RealData.map((listItem) => listItem.data);
   let categoryList = ListItems.map((blog, i) => {
-    return blog.category;
+    return [blog.category, blog.title];
   });
   categoryList = Array.from(new Set(categoryList));
+  console.log(categoryList);
   return {
     props: {
       categoryList: categoryList,
