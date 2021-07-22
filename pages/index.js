@@ -11,12 +11,13 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     transition: "1s ease opacity",
+
   },
   paper: {
-    padding: theme.spacing(2),
+    padding: theme.spacing(10),
     textAlign: "center",
     color: theme.palette.text.secondary,
-    padding: 4,
+    padding: 10,
     paddingBottom: 11,
   },
   default: {
@@ -27,13 +28,32 @@ const useStyles = makeStyles((theme) => ({
   imgcenter: {
     margin: "auto",
   },
-  link:{
+  link: {
     textDecoration: "auto",
     color: "rgb(56 13 166)",
-  },
-  linkLayout:{
     display: "block",
     textAlign: "center",
+    fontSize:"25px"
+  },
+  linkDescription:{
+    display: "block",
+    textAlign: "center",
+    fontSize:"20px",
+    margin:0
+  },
+  mediaSearch:{
+    [theme.breakpoints.down('sm')]: {
+      paddingLeft: "5vw",
+      paddingRight: "5vw",
+    },
+    [theme.breakpoints.up('md')]: {
+      paddingLeft: "5vw",
+      paddingRight: "5vw",
+    },
+    [theme.breakpoints.up('lg')]: {
+      paddingLeft: "13vw",
+      paddingRight: "13vw",
+    },
   }
 }));
 
@@ -69,23 +89,23 @@ const Index = ({ data }) => {
         backgroundSize: "cover",
         paddingTop: 15,
       }}
+      className={classes.mediaSearch}
     >
       <Transition timeout={duration} in={inProp}>
         {(state) => (
           <div
             className={classes.root}
             style={{
-              paddingLeft: "5vw",
-              paddingRight: "5vw",
+
               ...defaultStyle,
               ...transitionStyles[state],
             }}
           >
-            <Grid container spacing={2}>
+            <Grid container spacing={3}>
               <Grid item sm={3} xs={12}>
                 <SideBar categoryList={categoryList}></SideBar>
               </Grid>
-              <Grid item sm={8} xs={12}>
+              <Grid item sm={9} xs={12}>
                 <ul className={classes.default}>
                   {ListItems.map((blog, i) => (
                     <Paper key={i}>
@@ -95,13 +115,18 @@ const Index = ({ data }) => {
                             src="/8.jpg"
                             style={{
                               width: "100%",
-                              height: 150,
+                              height: 250,
                               objectFit: "cover",
                             }}
                           ></img>
                         </div>
-                        <a href={`/${blog.slug}`} className={classes.link,classes.linkLayout}>{blog.title}</a>
-                        <p className={classes.linkLayout}>{blog.description}</p>
+                        <a
+                          href={`/${blog.slug}`}
+                          className={classes.link}
+                        >
+                          {blog.title}
+                        </a>
+                        <p className={classes.linkDescription}>{blog.description}</p>
                       </li>
                     </Paper>
                   ))}

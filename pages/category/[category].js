@@ -23,9 +23,17 @@ const useStyles = makeStyles((theme) => ({
     margin: 0,
   },
   card: {
-    width: "45%",
     float: "left",
-    margin: "0 0 5% 5%",
+    margin: "0 0 5% 0",
+    [theme.breakpoints.down('sm')]: {
+      width: "45%",
+    },
+    [theme.breakpoints.up('md')]: {
+      width: "45%",
+    },
+    [theme.breakpoints.up('lg')]: {
+      width: "35%",
+    },
   },
   media: {
     height: 140,
@@ -33,6 +41,20 @@ const useStyles = makeStyles((theme) => ({
   link: {
     textDecoration: "auto",
     color: "#848383f5",
+  },
+  mediaSearch:{
+    [theme.breakpoints.down('sm')]: {
+      paddingLeft: "5vw",
+      paddingRight: "5vw",
+    },
+    [theme.breakpoints.up('md')]: {
+      paddingLeft: "5vw",
+      paddingRight: "5vw",
+    },
+    [theme.breakpoints.up('lg')]: {
+      paddingLeft: "13vw",
+      paddingRight: "13vw",
+    },
   }
 }));
 const duration = 300;
@@ -78,16 +100,16 @@ const category = ({ categoryList }) => {
             background: 'url("/7.jpg") no-repeat center center fixed',
             backgroundSize: "cover",
             paddingTop: 15,
-            paddingLeft: "5vw",
-            paddingRight: "5vw",
+            height: "200vh",
           }}
+          className={classes.mediaSearch}
         >
           <div className={classes.root}>
-            <Grid container spacing={2}>
+            <Grid container spacing={4}>
               <Grid item sm={3} xs={12}>
                 <SideBar categoryList={categoryList}></SideBar>
               </Grid>
-              <Grid item sm={8} xs={12}>
+              <Grid item sm={9} xs={12}>
                 {categoryTitle.map((value, i) => {
                   return (
                     <Card className={classes.card} key={i}>
