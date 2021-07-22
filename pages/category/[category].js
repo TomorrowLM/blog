@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   },
   card: {
     float: "left",
-    margin: "0 0 5% 0",
+    margin: "0 5% 5% 0",
     [theme.breakpoints.down('sm')]: {
       width: "45%",
     },

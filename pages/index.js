@@ -39,7 +39,9 @@ const useStyles = makeStyles((theme) => ({
     display: "block",
     textAlign: "center",
     fontSize:"20px",
-    margin:0
+    margin:0,
+    padding:"10px 0",
+    marginBottom:"20px"
   },
   mediaSearch:{
     [theme.breakpoints.down('sm')]: {
