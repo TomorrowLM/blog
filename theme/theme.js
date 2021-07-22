@@ -16,6 +16,10 @@ const theme = createTheme({
     background: {
       default: '#fff',
     },
+    link:{
+      textDecoration: "auto",
+      color: "rgb(56 13 166)",
+    }
   },
 });
 

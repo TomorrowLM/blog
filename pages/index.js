@@ -27,6 +27,14 @@ const useStyles = makeStyles((theme) => ({
   imgcenter: {
     margin: "auto",
   },
+  link:{
+    textDecoration: "auto",
+    color: "rgb(56 13 166)",
+  },
+  linkLayout:{
+    display: "block",
+    textAlign: "center",
+  }
 }));
 
 const duration = 300;
@@ -92,10 +100,8 @@ const Index = ({ data }) => {
                             }}
                           ></img>
                         </div>
-                        <Link href={`/${blog.slug}`}>
-                          <a>{blog.title}</a>
-                        </Link>
-                        <p>{blog.description}</p>
+                        <a href={`/${blog.slug}`} className={classes.link,classes.linkLayout}>{blog.title}</a>
+                        <p className={classes.linkLayout}>{blog.description}</p>
                       </li>
                     </Paper>
                   ))}

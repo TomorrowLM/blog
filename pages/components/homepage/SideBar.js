@@ -28,6 +28,10 @@ const useStyles = makeStyles((theme) => ({
   imgcenter: {
     margin: "auto",
   },
+  link:{
+    textDecoration: "auto",
+    color: "rgb(56 13 166)",
+  },
 }));
 const SideBar = memo((props) => {
   const classes = useStyles();
@@ -85,9 +89,9 @@ const SideBar = memo((props) => {
         <ul className={classes.default}>
           {categoryList.map((categoryItem, i) => (
             <li className={classes.default} key={i}>
-              <Link href={`/category/${encodeURIComponent(categoryItem)}`}>
-                <a>{categoryItem}</a>
-              </Link>
+              <a href={`/category/${encodeURIComponent(categoryItem)}`} className={classes.link}>
+                {categoryItem}
+              </a>
             </li>
           ))}
         </ul>

@@ -12,7 +12,6 @@ import CardActionArea from "@material-ui/core/CardActionArea";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
-import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,6 +30,10 @@ const useStyles = makeStyles((theme) => ({
   media: {
     height: 140,
   },
+  link: {
+    textDecoration: "auto",
+    color: "#848383f5",
+  }
 }));
 const duration = 300;
 const defaultStyle = {
@@ -95,10 +98,10 @@ const category = ({ categoryList }) => {
                           title="Contemplative Reptile"
                         />
                         <CardContent>
-                          <Typography gutterBottom variant="h5" component="h2">
-                            <Link href={`/${value[0]}`} key={i}>
-                              <a>{value[0]}</a>
-                            </Link>
+                          <Typography gutterBottom variant="h5" component="h2"  style={{textDecoration:"auto"}}>
+                            <a href={`/${value[0]}`} key={i} className={classes.link}>
+                              {value[0]}
+                            </a>
                           </Typography>
                           <Typography
                             variant="body2"
