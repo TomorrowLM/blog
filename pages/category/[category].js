@@ -7,6 +7,13 @@ import { Transition } from "react-transition-group";
 import SideBar from "../components/homepage/SideBar";
 import Grid from "@material-ui/core/Grid";
 import Link from "next/link";
+import Card from "@material-ui/core/Card";
+import CardActionArea from "@material-ui/core/CardActionArea";
+import CardActions from "@material-ui/core/CardActions";
+import CardContent from "@material-ui/core/CardContent";
+import CardMedia from "@material-ui/core/CardMedia";
+import Button from "@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -15,6 +22,14 @@ const useStyles = makeStyles((theme) => ({
     listStyle: "none",
     padding: 0,
     margin: 0,
+  },
+  card: {
+    width: "45%",
+    float: "left",
+    margin: "0 0 5% 5%",
+  },
+  media: {
+    height: 140,
   },
 }));
 const duration = 300;
@@ -33,15 +48,16 @@ const category = ({ categoryList }) => {
   const router = useRouter();
   const category = router.query.category;
   const [inProp, setInProp] = useState(false);
-  console.log(categoryList);
   categoryList = categoryList || [];
-  let categoryTitle = categoryList.map((value, index) => {
+  let categoryTitle = categoryList.filter((value, index) => {
     if (value[0] === category) {
-      console.log(value[1]);
-      return value[1];
+      return value;
     }
   });
-  console.log(categoryList);
+  categoryTitle = categoryTitle.map((value, index) => {
+    return [value[1], value[2]];
+  });
+  console.log(categoryTitle);
   categoryList = categoryList.map((value) => {
     return value[0];
   });
@@ -71,9 +87,31 @@ const category = ({ categoryList }) => {
               <Grid item sm={8} xs={12}>
                 {categoryTitle.map((value, i) => {
                   return (
-                    <Link href={`/${value}`} key={i}>
-                      <a>{value}</a>
-                    </Link>
+                    <Card className={classes.card} key={i}>
+                      <CardActionArea>
+                        <CardMedia
+                          className={classes.media}
+                          image="/2.jpg"
+                          title="Contemplative Reptile"
+                        />
+                        <CardContent>
+                          <Typography gutterBottom variant="h5" component="h2">
+                            <Link href={`/${value[0]}`} key={i}>
+                              <a>{value[0]}</a>
+                            </Link>
+                          </Typography>
+                          <Typography
+                            variant="body2"
+                            color="textSecondary"
+                            component="p"
+                          >
+                            {value[1]}
+                          </Typography>
+                        </CardContent>
+                      </CardActionArea>
+                      <CardActions>
+                      </CardActions>
+                    </Card>
                   );
                 })}
               </Grid>
@@ -111,10 +149,9 @@ export async function getStaticProps() {
   const RealData = data.map((blog) => matter(blog));
   const ListItems = RealData.map((listItem) => listItem.data);
   let categoryList = ListItems.map((blog, i) => {
-    return [blog.category, blog.title];
+    return [blog.category, blog.title, blog.description];
   });
   categoryList = Array.from(new Set(categoryList));
-  console.log(categoryList);
   return {
     props: {
       categoryList: categoryList,
