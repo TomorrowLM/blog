@@ -1,26 +1,22 @@
 import React, { useCallback, useEffect, useState } from "react";
-import Head from "next/head";
 import matter from "gray-matter";
 import Link from "next/link";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
-import Avatar from "@material-ui/core/Avatar";
-import Button from "@material-ui/core/Button";
-import GitHubIcon from "@material-ui/icons/GitHub";
-import FolderIcon from "@material-ui/icons/Folder";
-import NestedList from "../components/homepage/NestedList";
 import { Transition } from "react-transition-group";
+import SideBar from "./components/homepage/SideBar";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     transition: "1s ease opacity",
   },
   paper: {
-    padding: theme.spacing(2),
+    padding: theme.spacing(10),
     textAlign: "center",
     color: theme.palette.text.secondary,
-    padding: 4,
+    padding: 10,
     paddingBottom: 11,
   },
   default: {
@@ -31,6 +27,35 @@ const useStyles = makeStyles((theme) => ({
   imgcenter: {
     margin: "auto",
   },
+  link: {
+    textDecoration: "auto",
+    color: "rgb(56 13 166)",
+    display: "block",
+    textAlign: "center",
+    fontSize:"25px"
+  },
+  linkDescription:{
+    display: "block",
+    textAlign: "center",
+    fontSize:"20px",
+    margin:0,
+    padding:"10px 0",
+    marginBottom:"20px"
+  },
+  mediaSearch:{
+    [theme.breakpoints.down('sm')]: {
+      paddingLeft: "5vw",
+      paddingRight: "5vw",
+    },
+    [theme.breakpoints.up('md')]: {
+      paddingLeft: "5vw",
+      paddingRight: "5vw",
+    },
+    [theme.breakpoints.up('lg')]: {
+      paddingLeft: "13vw",
+      paddingRight: "13vw",
+    },
+  }
 }));
 
 const duration = 300;
@@ -45,7 +70,7 @@ const transitionStyles = {
   exited: { opacity: 0 },
 };
 
-const Index = ({ data, title, description }) => {
+const Index = ({ data }) => {
   const classes = useStyles();
   const RealData = data.map((blog) => matter(blog));
   const ListItems = RealData.map((listItem) => listItem.data);
@@ -57,92 +82,30 @@ const Index = ({ data, title, description }) => {
     setInProp(true);
   });
   categoryList = Array.from(new Set(categoryList));
+  console.log(2);
   return (
-    <div style={{background:'url("/7.jpg") no-repeat center center fixed', backgroundSize: 'cover'}}>
-      <Head>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta charSet="utf-8" />
-        <meta name="Description" content={description}></meta>
-        <title>{title}</title>
-      </Head>
+    <div
+      style={{
+        background: 'url("/7.jpg") no-repeat center center fixed',
+        backgroundSize: "cover",
+        paddingTop: 15,
+      }}
+      className={classes.mediaSearch}
+    >
       <Transition timeout={duration} in={inProp}>
         {(state) => (
           <div
             className={classes.root}
             style={{
-              paddingLeft: "5vw",
-              paddingRight: "5vw",
               ...defaultStyle,
               ...transitionStyles[state],
             }}
           >
-            <Grid container spacing={2}>
+            <Grid container spacing={3}>
               <Grid item sm={3} xs={12}>
-                <Paper className={classes.paper}>
-                  <Avatar
-                    alt="liming"
-                    src="/head.jpg"
-                    className={classes.imgcenter}
-                  />
-                  <p>TomorrowLM</p>
-                  <span>热/爱</span>
-                  <div className={classes.root} style={{ marginTop: 10 }}>
-                    <Grid container spacing={1}>
-                      <Grid item xs={4} sm={4}>
-                        <span>文章</span>
-                      </Grid>
-                      <Grid item xs={4} sm={4}>
-                        <span>标签</span>
-                      </Grid>
-                      <Grid item xs={4} sm={4}>
-                        <span>分类</span>
-                      </Grid>
-                    </Grid>
-                  </div>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    href="https://github.com/TomorrowLM"
-                    size="small"
-                    style={{
-                      width: "80%",
-                      marginTop: 20,
-                      fontVariant: "all-small-caps",
-                    }}
-                  >
-                    <GitHubIcon />
-                    github
-                  </Button>
-                </Paper>
-                <Paper className={classes.paper} style={{ marginTop: 10 }}>
-                  <NestedList></NestedList>
-                </Paper>
-                <Paper className={classes.paper} style={{ marginTop: 10 }}>
-                  <p
-                    style={{
-                      textAlign: "left",
-                      paddingLeft: 14,
-                      margin: 0,
-                      marginTop: 10,
-                    }}
-                  >
-                    <FolderIcon></FolderIcon>
-                    <span style={{ verticalAlign: "super" }}>分/类</span>
-                  </p>
-                  <ul className={classes.default}>
-                    {categoryList.map((categoryItem, i) => (
-                      <li className={classes.default} key={i}>
-                        <Link
-                          href={`/category/${encodeURIComponent(categoryItem)}`}
-                        >
-                          <a>{categoryItem}</a>
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </Paper>
+                <SideBar categoryList={categoryList}></SideBar>
               </Grid>
-              <Grid item sm={8} xs={12}>
+              <Grid item sm={9} xs={12}>
                 <ul className={classes.default}>
                   {ListItems.map((blog, i) => (
                     <Paper key={i}>
@@ -152,15 +115,18 @@ const Index = ({ data, title, description }) => {
                             src="/8.jpg"
                             style={{
                               width: "100%",
-                              height: 150,
+                              height: 250,
                               objectFit: "cover",
                             }}
                           ></img>
                         </div>
-                        <Link href={`/${blog.slug}`}>
-                          <a>{blog.title}</a>
-                        </Link>
-                        <p>{blog.description}</p>
+                        <a
+                          href={`/${blog.slug}`}
+                          className={classes.link}
+                        >
+                          {blog.title}
+                        </a>
+                        <p className={classes.linkDescription}>{blog.description}</p>
                       </li>
                     </Paper>
                   ))}
@@ -177,9 +143,7 @@ const Index = ({ data, title, description }) => {
 export default Index;
 
 export async function getStaticProps() {
-  const siteData = await import(`../config.json`);
   const fs = require("fs");
-
   const files = fs.readdirSync(`${process.cwd()}/content`, "utf-8");
 
   const blogs = files.filter((fn) => fn.endsWith(".md"));
@@ -190,12 +154,10 @@ export async function getStaticProps() {
     });
     return rawContent;
   });
-
+  console.log(1);
   return {
     props: {
       data: data,
-      title: siteData.default.title,
-      description: siteData.default.description,
     },
   };
 }
