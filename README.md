@@ -1,11 +1,1 @@
-
-
-****
-
-## hexo-butterfly-blog
-
-https://tomorrowlm.github.io/
-
-## next-blog
-
-https://www.tomorrowlm.top/
+This is a starter template for [Learn Next.js](https://nextjs.org/learn).
